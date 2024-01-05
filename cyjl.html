@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>成语接龙小帮手</title>
+</head>
+<style>
+    .content-box {
+        padding: 0 30%;
+    }
+</style>
+<body>
+    <div class="jumbotron">
+        <h2 style="text-align:center">成语接龙小帮手</h2>
+    </div>
+    <div class="container content-box">
+        <h2>输入要接龙的成语</h2>
+        <div>
+            <input type="text" placeholder="输入成语" class="form-control input-lg" id="input">
+        </div>
+        <div style="margin-top:10px">
+            <button class="btn btn-success " style="width:100%" id="search">确 定</button>
+        </div>
+
+        <div style="margin-top: 30px;display: none" id="result-box">
+            <h2>接：</h2>
+            <h2 id="result" style="color: #0099FF">
+
+            </h2>
+        </div>
+    </div>
+</body>
+<script>
+    $(function() {
+
+        let load = function(idiom) {
+            let urlPrefix = "http://i.itpk.cn/api.php?question=";
+            let suffix = "@cy" + idiom;
+            suffix = encodeURIComponent(suffix);
+            $.get(urlPrefix + suffix, function(data) {
+                console.log(data);
+                $("#result").text(data);
+                $("#result-box").show();
+            });
+        }
+
+        $("#search").click(function() {
+            let idiom = $("#input").val().trim();
+            if (idiom === "" || idiom.length !== 4) {
+                alert("请输入四字成语");
+                return;
+            }
+            load(idiom); 
+        })
+    })
+</script>
+</html>
